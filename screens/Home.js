@@ -1,5 +1,7 @@
 import React from 'react';
 import {View,Text,StyleSheet} from 'react-native';
+import 'react-native-gesture-handler';
+import Header from '../components/Header';
 
 
 const styles = StyleSheet.create({
@@ -12,10 +14,13 @@ const styles = StyleSheet.create({
 
 const Home = (props) => {
     return(
-        <View>
+        <View style = {{flex:1}}>
+        <Header title = "Home" onTap = {props.navigation.openDrawer}/>
+        <View style = {styles.container}> 
             <Text>
                 Home
             </Text>
+            </View>
         </View>
     )
 };

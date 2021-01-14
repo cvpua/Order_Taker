@@ -1,6 +1,6 @@
 import React from 'react';
 import {View,Text,StyleSheet} from 'react-native';
-
+import Header from '../components/Header';
 
 const styles = StyleSheet.create({
     container: {
@@ -12,10 +12,13 @@ const styles = StyleSheet.create({
 
 const About = (props) => {
     return(
-        <View>
+        <View style = {{flex:1}}>
+        <Header title = "About" onTap = {props.navigation.openDrawer}/>
+        <View style = {styles.container}> 
             <Text>
                 About
             </Text>
+            </View>
         </View>
     )
 };
