@@ -1,14 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import {StatusBar, StyleSheet, Text, View, Button } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerItem, DrawerItemList, DrawerContentScrollView } from '@react-navigation/drawer';
 
 import Home from './screens/Home';
 import Order from './screens/Order';
 import About from "./screens/About";
-
+import Logo from './components/Logo';
 
 const styles = StyleSheet.create({
   container: {
@@ -97,12 +97,21 @@ const styles = StyleSheet.create({
 
 const Drawer = createDrawerNavigator();
 
+function CustomDrawerComponent(props){
+  return(
+    <DrawerContentScrollView {...props}>
+      <Logo/>
+      <DrawerItemList {...props} />
+    </DrawerContentScrollView>
+  )
+}
+
 
 const App = () => {
-  
   return(
-    <NavigationContainer>
-      <Drawer.Navigator initialRouteName = "Home">
+    
+    <NavigationContainer >
+      <Drawer.Navigator initialRouteName = "Home" drawerContent = {CustomDrawerComponent} >
         <Drawer.Screen name="Home" component = {Home} />
         <Drawer.Screen name="Orders" component = {Order}/>
         <Drawer.Screen name="About" component = {About}/>
@@ -111,9 +120,6 @@ const App = () => {
   )
   
 };
-
-
-
 
 export default App;
 
