@@ -4,7 +4,7 @@ import {View,TouchableOpacity,Text,StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
     textStyle : {
         color : 'grey',
-        fontSize : 18
+        fontSize : 30
     },
     container : {
         flex : 1
@@ -17,7 +17,7 @@ const CloseButton = props => {
         <TouchableOpacity onPress = {() => props.viewModal(false)}>
             <View>
                 <Text style = {{...styles.textStyle}}>
-                    X
+                ×
                 </Text>
             </View>
         </TouchableOpacity>

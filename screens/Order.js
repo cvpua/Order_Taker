@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     View,
     Text,
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
+
 import Header from '../components/Header';
+import OrderForm from '../components/OrderForm';
 
 const styles = StyleSheet.create({
     container: {
@@ -32,16 +34,24 @@ const styles = StyleSheet.create({
   });
 
 const Order = (props) => {
+
+    const [toOrder,setToOrder] = useState(false);
+
+    const setToOrderHandler = (value) => {
+        setToOrder(value);
+    }
+
     return(
         <View style = {{flex:1}}>
         <Header title = "Orders" onTap = {props.navigation.openDrawer}/>
         <View style = {styles.container}> 
-            <TouchableOpacity style = {styles.orderButton} >
+            <TouchableOpacity style = {styles.orderButton} onPress = {() => {setToOrderHandler(true)}} >
                 <View>
                 <Text style = {{fontSize : 40}}>+</Text>
                 </View>
             </TouchableOpacity>
             </View>
+        <OrderForm showForm = {toOrder} setShowForm = {setToOrderHandler}/>    
         </View>
     )
 };
