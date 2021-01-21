@@ -36,22 +36,35 @@ const styles = StyleSheet.create({
 const Order = (props) => {
 
     const [toOrder,setToOrder] = useState(false);
+    const [listOfOrder,setListOfOrder] = useState([]);
 
     const setToOrderHandler = (value) => {
         setToOrder(value);
-    }
+    };
 
+    const addOrder = (order) => {
+        setListOfOrder([...listOfOrder,order]);
+    };
+
+  
+    let currentView = (<View style = {styles.container}> 
+        <TouchableOpacity style = {styles.orderButton} onPress = {() => {setToOrderHandler(true)}} >
+            <View>
+            <Text style = {{fontSize : 40}}>+</Text>
+            </View>
+        </TouchableOpacity>
+        </View>);
+    if (toOrder){
+        currentView =  <OrderForm 
+                            showForm = {toOrder} 
+                            setShowForm = {setToOrderHandler}
+                            addOrder = {addOrder}
+                            /> 
+    }
     return(
         <View style = {{flex:1}}>
         <Header title = "Orders" onTap = {props.navigation.openDrawer}/>
-        <View style = {styles.container}> 
-            <TouchableOpacity style = {styles.orderButton} onPress = {() => {setToOrderHandler(true)}} >
-                <View>
-                <Text style = {{fontSize : 40}}>+</Text>
-                </View>
-            </TouchableOpacity>
-            </View>
-        <OrderForm showForm = {toOrder} setShowForm = {setToOrderHandler}/>    
+        {currentView}
         </View>
     )
 };

@@ -1,18 +1,23 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {
         View,
         StyleSheet,
-        Modal,
         Text,
         TouchableOpacity,
         ScrollView,
-        TextInput
+        LogBox,
+        Alert,
     }
 from 'react-native';
+
+
 import Colors from '../constants/colors';
 import Input from './Input';
 import OrderItem from './OrderItem';
 import AddOrderButton from './AddOrderButton';
+import DateInput from './DateInput';
+
+LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 const styles = StyleSheet.create({
     modalContainer : {
@@ -22,6 +27,7 @@ const styles = StyleSheet.create({
         alignItems : 'center',
     },
     formStyle : {
+        // flex : 1,
         height :  500,
         width : 350,
         maxWidth : '80%',
@@ -36,7 +42,8 @@ const styles = StyleSheet.create({
         flexDirection : 'row',
         // borderWidth : 1,
         justifyContent : 'space-around',
-        paddingBottom : 40
+        paddingBottom : 40,
+        marginTop : 32
     },
     button : {
         borderWidth : 1,
@@ -58,10 +65,35 @@ const styles = StyleSheet.create({
 
 const OrderForm = props => {
     const {showForm,setShowForm} = props;
+    
+    const [orderCount,setOrderCount] = useState(1);
+    const [orderList,setOrderList] = useState([{Name:"Hello",ContactNumber:"09", orderId: Math.random().toString()}]);
+    
+
+    const addOrderItem = () => {
+        if (orderCount < 6){
+        setOrderCount(orderCount + 1);    
+        setOrderList(
+            [...orderList,{Name:"World",ContactNumber:"09",orderId : Math.random().toString()}]
+        )}
+        else{
+            console.log("Order Full!")
+        }
+    }
+    
+    const deleteOrderItem = (key) => {
+        const updatedList = orderList.filter((item) => {
+            return (item.orderId !== key);
+        });
+        setOrderCount(orderCount - 1);
+        setOrderList(updatedList)
+    }
+
 
     return(
-        <Modal visible = {showForm} transparent = {true} >
-            <View style = {styles.modalContainer}>
+        // <Modal visible = {showForm} transparent = {true} >
+        //    <View>
+           <View style = {styles.modalContainer}>
                 <View style = {styles.formStyle}>
                     <View>
                     <Text style ={styles.headerStyle}>
@@ -72,9 +104,21 @@ const OrderForm = props => {
                         <View>
                             <Input name = "Name" inputContainerStyle = {styles.inputContainer}/>
                             <Input name = "Contact Number" inputContainerStyle = {styles.inputContainer} />
-                            <Input name = "Date of Pickup" inputContainerStyle = {styles.inputContainer} />
-                            <OrderItem  inputContainerStyle = {styles.inputContainer}/>
-                            <AddOrderButton/>
+                            {/* <Input name = "Date of Pickup" inputContainerStyle = {styles.inputContainer} /> */}
+                            <DateInput />
+                            <View style = {styles.inputContainer}>
+                            <Text>
+                                Order: 
+                             </Text>
+                             </View>
+                            {orderList.map((order,index)=> {
+                                return (<OrderItem  
+                                key = {order.orderId} 
+                                orderId = {order.orderId} 
+                                inputContainerStyle = {styles.inputContainer} 
+                                deleteOrder = {deleteOrderItem}/>) 
+                            })}
+                            <AddOrderButton addOrder = {addOrderItem}/>
                         </View>
                     </ScrollView>
                     <View style = {styles.buttonContainer}>
@@ -95,7 +139,8 @@ const OrderForm = props => {
                     </View>
                 </View>
             </View>
-        </Modal>
+            // </View> 
+        // </Modal>
 
     )
 };
