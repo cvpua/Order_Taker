@@ -64,10 +64,18 @@ const styles = StyleSheet.create({
 });
 
 const OrderForm = props => {
+    const {addOrder} = props;
+
     const {showForm,setShowForm} = props;
-    
     const [orderCount,setOrderCount] = useState(1);
-    const [orderList,setOrderList] = useState([{Name:"Hello",ContactNumber:"09", orderId: Math.random().toString()}]);
+    
+    
+    const [name,setName] = useState("");
+    const [contactNumber,setContactNumber] = useState("");
+    const [dateOfPickup,setDateOfPickup] = useState([]);
+    const [orderList,setOrderList] = useState([]);
+    const [order,setOrder] = useState({name, contactNumber, dateOfPickup, orderList}); 
+    
     
 
     const addOrderItem = () => {
@@ -89,6 +97,22 @@ const OrderForm = props => {
         setOrderList(updatedList)
     }
 
+    const changeNameHandler = () => {
+
+    }
+
+    const contactNumberHandler = () => {
+
+    }
+
+    const dateOfPickupHandler = () => {
+
+    }
+
+    const orderListHandler = () => {
+
+    }
+
 
     return(
         // <Modal visible = {showForm} transparent = {true} >
@@ -102,8 +126,8 @@ const OrderForm = props => {
                     </View>
                     <ScrollView>
                         <View>
-                            <Input name = "Name" inputContainerStyle = {styles.inputContainer}/>
-                            <Input name = "Contact Number" inputContainerStyle = {styles.inputContainer} />
+                            <Input name = "Name" inputContainerStyle = {styles.inputContainer} type = "default"/>
+                            <Input name = "Contact Number" inputContainerStyle = {styles.inputContainer} type = "numeric" />
                             {/* <Input name = "Date of Pickup" inputContainerStyle = {styles.inputContainer} /> */}
                             <DateInput />
                             <View style = {styles.inputContainer}>

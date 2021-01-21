@@ -20,11 +20,11 @@ const styles = StyleSheet.create({
 });
 
 const Input = props => {
-
+    const {type} = props;
     return(
         <View style = {{...styles.container,...props.inputContainerStyle}}>
         <Text>{props.name}: </Text>
-        <TextInput style = {{...styles.input}}/>
+        <TextInput style = {{...styles.input}} keyboardType = {type}/>
         </View>
     )
 };
