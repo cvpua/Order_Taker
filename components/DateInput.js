@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import {
         View,
         StyleSheet,
@@ -48,14 +48,15 @@ const styles = StyleSheet.create({
 });
 
 const DateInput = props => {
-    
-    
+  
+  const {onChangeHandler} = props;
+  
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
-  const [dateOfDelivery,setDateOfDelivery] = useState();
-  const [timeOfDelivery,setTimeOfDelivery] = useState();
+  const [dateOfDelivery,setDateOfDelivery] = useState('');
+  const [timeOfDelivery,setTimeOfDelivery] = useState('');
   
 
   const onChange = (event, selectedDate) => {
@@ -69,14 +70,15 @@ const DateInput = props => {
 
       const date = `${month}-${day}-${year}`
       setDateOfDelivery(date);
+     
     }else{
       let timeConvention;
       let hour = currentDate.getHours().toString();
       let minute = currentDate.getMinutes().toString();
       
       if (parseInt(hour) >= 12){
-        hour = parseInt(hour) - 12
-        hour = hour.toString()
+        hour = parseInt(hour) - 12;
+        hour = hour.toString();
         timeConvention = 'PM';
       }else{
         timeConvention = 'AM';
@@ -90,6 +92,7 @@ const DateInput = props => {
       }
       const time = `${hour}:${minute} ${timeConvention}`
       setTimeOfDelivery(time);
+      
     }
   };
 
@@ -106,6 +109,9 @@ const DateInput = props => {
     showMode('time');
   };
 
+  useEffect (() => {
+    onChangeHandler({date: dateOfDelivery, time: timeOfDelivery});
+  },[dateOfDelivery,timeOfDelivery]);
 
   return (
     <View style = {styles.mainContainer}>

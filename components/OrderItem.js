@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {
         View,
         TextInput,
@@ -73,11 +73,26 @@ const data = [{name :'Crispy Pata'},{name:'Carbonara'},{name :'Lumpiang Shanghai
 
 
 const OrderItem = props =>{
-    const {deleteOrder,orderId} = props;
-
+    const {deleteOrder,food,onChangeHandler} = props;
+    
     // const [choices,setChoices] = useState(data);
     const [chosenFood,setChosenFood] = useState(data[0]);
+    const [quantity,setQuantity] = useState('0');
     
+    
+
+    const chosenFoodHandler = (food) => {
+        setChosenFood({name:food.name});
+    }
+
+    const quantityHandler = (numberValue) =>{
+        setQuantity(numberValue);
+    }
+
+    useEffect( () =>{
+        onChangeHandler({quantity,food:chosenFood.name,foodId :food.foodId},food.foodId);
+    },[chosenFood,quantity]);
+
     const RenderLeftActions = (progress, dragX) => {
         const scale = dragX.interpolate({
           inputRange: [0, 80],
@@ -91,11 +106,12 @@ const OrderItem = props =>{
               size={30}
               color="#fff"
               style={styles.actionIcon}
-              onPress ={() => deleteOrder(orderId)}
+              onPress ={() => deleteOrder(food.foodId)}
             />
           </RectButton>
         );
       };
+
 
     return (
         <Swipeable renderLeftActions = {RenderLeftActions}>
@@ -105,10 +121,12 @@ const OrderItem = props =>{
                     <Text>Qty: </Text>
                     <TextInput 
                         style = {{...styles.textInputStyle,...styles.qtyStyle}}
-                        autoCapitalize='none' 
+                        // autoCapitalize='none' 
                         autoCorrect={false} 
                         keyboardType='numeric' 
                         maxLength={1}
+                        value = {quantity}
+                        onChangeText = {quantityHandler}
                         />
                 </View>
                 <View style = {styles.orderComponents}>
@@ -118,7 +136,7 @@ const OrderItem = props =>{
                         itemStyle = {styles.onePickerItem}
                         mode = 'dropdown'
                         onValueChange = {(item,index) => {
-                            setChosenFood({name: item});
+                            chosenFoodHandler({name: item});
                         }}
                     >
                         {data.map((food,index) => {

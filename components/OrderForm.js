@@ -16,6 +16,7 @@ import Input from './Input';
 import OrderItem from './OrderItem';
 import AddOrderButton from './AddOrderButton';
 import DateInput from './DateInput';
+import { set } from 'react-native-reanimated';
 
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
@@ -74,7 +75,7 @@ const OrderForm = props => {
     const [contactNumber,setContactNumber] = useState("");
     const [dateOfPickup,setDateOfPickup] = useState([]);
     const [orderList,setOrderList] = useState([]);
-    const [order,setOrder] = useState({name, contactNumber, dateOfPickup, orderList}); 
+    const [order,setOrder] = useState({}); 
     
     
 
@@ -82,37 +83,55 @@ const OrderForm = props => {
         if (orderCount < 6){
         setOrderCount(orderCount + 1);    
         setOrderList(
-            [...orderList,{Name:"World",ContactNumber:"09",orderId : Math.random().toString()}]
+            [...orderList,{quantity:0,food:"",foodId : Math.random().toString()}]
         )}
         else{
-            console.log("Order Full!")
+            console.log("Order Full!");
         }
-    }
+    };
     
     const deleteOrderItem = (key) => {
         const updatedList = orderList.filter((item) => {
             return (item.orderId !== key);
         });
         setOrderCount(orderCount - 1);
-        setOrderList(updatedList)
-    }
+        setOrderList(updatedList);
+    };
 
-    const changeNameHandler = () => {
+    const nameHandler = (nameValue) => {
+        
+        setName(nameValue);
+    };
 
-    }
+    const contactNumberHandler = (numberValue) => {
+        setContactNumber(numberValue);
+    };
 
-    const contactNumberHandler = () => {
+    const dateOfPickupHandler = (dateValue) => {
+        setDateOfPickup(dateValue);
+    };
 
-    }
+    const orderListHandler = (orderListValue,foodId) => {
+        const item = orderListValue;
+        const updatedOrderList = orderList.map((order) =>{
+            if(order.foodId === foodId){
+                return item;
+            }else{
+                return order;
+            }
+        });
+        setOrderList(updatedOrderList);
+    };
 
-    const dateOfPickupHandler = () => {
-
-    }
-
-    const orderListHandler = () => {
-
-    }
-
+    const submitOrder = () => {
+        
+        const newOrder ={name, contactNumber, dateOfPickup, orderList,orderId : Math.random().toString()};
+        setOrder(newOrder);    
+        // setShowForm(false);
+        console.log(newOrder);
+        console.log(order)  
+    };
+    
 
     return(
         // <Modal visible = {showForm} transparent = {true} >
@@ -126,21 +145,40 @@ const OrderForm = props => {
                     </View>
                     <ScrollView>
                         <View>
-                            <Input name = "Name" inputContainerStyle = {styles.inputContainer} type = "default"/>
-                            <Input name = "Contact Number" inputContainerStyle = {styles.inputContainer} type = "numeric" />
-                            {/* <Input name = "Date of Pickup" inputContainerStyle = {styles.inputContainer} /> */}
-                            <DateInput />
+                            <Input 
+                                    name = "Name" 
+                                    inputContainerStyle = {styles.inputContainer} 
+                                    type = "default" 
+                                    value = {name}
+                                    onChangeHandler = {nameHandler}
+                                    />
+                            <Input 
+                                    name = "Contact Number" 
+                                    inputContainerStyle = {styles.inputContainer} 
+                                    type = "numeric" 
+                                    value = {contactNumber}
+                                    onChangeHandler = {contactNumberHandler}
+                                    />
+                            
+                            <DateInput 
+                                    value = {dateOfPickup}
+                                    onChangeHandler = {dateOfPickupHandler}
+                                    />
                             <View style = {styles.inputContainer}>
                             <Text>
                                 Order: 
                              </Text>
                              </View>
-                            {orderList.map((order,index)=> {
-                                return (<OrderItem  
-                                key = {order.orderId} 
-                                orderId = {order.orderId} 
-                                inputContainerStyle = {styles.inputContainer} 
-                                deleteOrder = {deleteOrderItem}/>) 
+                            {orderList.map((food,index)=> {
+                                return (
+                                    <OrderItem  
+                                        key = {food.foodId} 
+                                        food = {food} 
+                                        inputContainerStyle = {styles.inputContainer} 
+                                        deleteOrder = {deleteOrderItem}
+                                        value = {orderList}
+                                        onChangeHandler = {orderListHandler}
+                                />) 
                             })}
                             <AddOrderButton addOrder = {addOrderItem}/>
                         </View>
@@ -153,7 +191,7 @@ const OrderForm = props => {
                                 </Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress = {() => {setShowForm(false)}}>
+                        <TouchableOpacity onPress = {() => submitOrder()}>
                             <View style = {styles.button}>
                                 <Text>
                                     Confirm
