@@ -120,8 +120,7 @@ const OrderItem = props =>{
                 <View style = {styles.orderComponents}>
                     <Text>Qty: </Text>
                     <TextInput 
-                        style = {{...styles.textInputStyle,...styles.qtyStyle}}
-                        // autoCapitalize='none' 
+                        style = {{...styles.textInputStyle,...styles.qtyStyle}} 
                         autoCorrect={false} 
                         keyboardType='numeric' 
                         maxLength={1}

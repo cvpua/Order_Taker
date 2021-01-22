@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
         // borderWidth : 1,
         justifyContent : 'center',
         alignItems : 'center',
+        
     },
     formStyle : {
         // flex : 1,
@@ -65,25 +66,24 @@ const styles = StyleSheet.create({
 });
 
 const OrderForm = props => {
-    const {addOrder} = props;
+    const {addOrder,updateOrderList} = props;
 
     const {showForm,setShowForm} = props;
-    const [orderCount,setOrderCount] = useState(1);
+    const [foodCount,setFoodCount] = useState(1);
     
     
     const [name,setName] = useState("");
     const [contactNumber,setContactNumber] = useState("");
     const [dateOfPickup,setDateOfPickup] = useState([]);
-    const [orderList,setOrderList] = useState([]);
-    const [order,setOrder] = useState({}); 
-    
+    const [foodList,setFoodList] = useState([]);
+
     
 
     const addOrderItem = () => {
-        if (orderCount < 6){
-        setOrderCount(orderCount + 1);    
-        setOrderList(
-            [...orderList,{quantity:0,food:"",foodId : Math.random().toString()}]
+        if (foodCount < 6){
+        setFoodCount(foodCount + 1);    
+        setFoodList(
+            [...foodList,{quantity:0,food:"",foodId : Math.random().toString()}]
         )}
         else{
             console.log("Order Full!");
@@ -91,11 +91,11 @@ const OrderForm = props => {
     };
     
     const deleteOrderItem = (key) => {
-        const updatedList = orderList.filter((item) => {
-            return (item.orderId !== key);
+        const updatedList = foodList.filter((item) => {
+            return (item.foodId !== key);
         });
-        setOrderCount(orderCount - 1);
-        setOrderList(updatedList);
+        setFoodCount(foodCount - 1);
+        setFoodList(updatedList);
     };
 
     const nameHandler = (nameValue) => {
@@ -111,25 +111,24 @@ const OrderForm = props => {
         setDateOfPickup(dateValue);
     };
 
-    const orderListHandler = (orderListValue,foodId) => {
+    const foodListHandler = (orderListValue,foodId) => {
         const item = orderListValue;
-        const updatedOrderList = orderList.map((order) =>{
+        const updatedFoodList = foodList.map((order) =>{
             if(order.foodId === foodId){
                 return item;
             }else{
                 return order;
             }
         });
-        setOrderList(updatedOrderList);
+        setFoodList(updatedFoodList);
     };
 
     const submitOrder = () => {
         
-        const newOrder ={name, contactNumber, dateOfPickup, orderList,orderId : Math.random().toString()};
-        setOrder(newOrder);    
-        // setShowForm(false);
-        console.log(newOrder);
-        console.log(order)  
+        const newOrder ={name, contactNumber, dateOfPickup, foodList,orderId : Math.random().toString()};    
+        updateOrderList(newOrder);
+        setShowForm(false);
+          
     };
     
 
@@ -169,15 +168,15 @@ const OrderForm = props => {
                                 Order: 
                              </Text>
                              </View>
-                            {orderList.map((food,index)=> {
+                            {foodList.map((food,index)=> {
                                 return (
                                     <OrderItem  
                                         key = {food.foodId} 
                                         food = {food} 
                                         inputContainerStyle = {styles.inputContainer} 
                                         deleteOrder = {deleteOrderItem}
-                                        value = {orderList}
-                                        onChangeHandler = {orderListHandler}
+                                        value = {foodList}
+                                        onChangeHandler = {foodListHandler}
                                 />) 
                             })}
                             <AddOrderButton addOrder = {addOrderItem}/>
