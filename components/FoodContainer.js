@@ -100,9 +100,9 @@ const FoodContainer = props => {
             >
             <View style = {styles.modalContainer}>
                 <View style = {styles.modalStyle}>
-                <View style = {styles.closeButton}>
-                <CloseButton viewModal = {viewModal}/>
-                </View>
+                    <View style = {styles.closeButton}>
+                    <CloseButton viewModal = {viewModal}/>
+                    </View>
                 <Image 
                     source = {foodImage}
                     style = {styles.modalImage}
