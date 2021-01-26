@@ -77,7 +77,7 @@ const OrderItem = props =>{
     
     // const [choices,setChoices] = useState(data);
     const [chosenFood,setChosenFood] = useState(data[0]);
-    const [quantity,setQuantity] = useState('0');
+    const [quantity,setQuantity] = useState('1');
     
     
 

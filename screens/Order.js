@@ -3,7 +3,8 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    ScrollView
 } from 'react-native';
 
 import Header from '../components/Header';
@@ -57,6 +58,7 @@ const Order = (props) => {
     
 
     let currentView = (
+        
         <View style = {styles.container}> 
             {orderList.map((order,index) => {
                 return (<OrderList key = {order.orderId} order = {order} />)
@@ -68,7 +70,8 @@ const Order = (props) => {
                 <Text style = {{fontSize : 40}}>+</Text>
                 </View>
             </TouchableOpacity>
-        </View>)
+        </View>
+        )
     if (toOrder){
         currentView =  <OrderForm 
                             showForm = {toOrder} 

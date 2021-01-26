@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import {View,Text,TouchableOpacity,StyleSheet,ScrollView} from 'react-native';
 import Colors from '../constants/colors';
+import ViewOrder from './ViewOrder';
 
 
 const styles = StyleSheet.create({
@@ -15,10 +16,10 @@ const styles = StyleSheet.create({
     },
     buttonContainer : {
         flexDirection : 'row',
-        position : 'absolute',
+        // position : 'absolute',
         bottom : 0,
         borderTopWidth : 1,
-        flex : 1,
+        // flex : 1,
         width : '100%',
         justifyContent : 'space-around',
         paddingVertical : 8,
@@ -27,17 +28,30 @@ const styles = StyleSheet.create({
     button : {
         borderWidth : 1,
         borderRadius : 10,
-        width : 50
+        width : 50,
+        // height: 50
     },
     foodList : {
         flexDirection : 'row',
         // borderWidth : 1,
-        justifyContent : 'space-around',
-        marginVertical : 5,
+        justifyContent : 'flex-start',
+        paddingTop : 5,
+        marginHorizontal : "10%"
     },
     foodListContainer : {
+        // flex : 1
         // borderWidth : 1,
-        height : "75%"
+        // backgroundColor : 'grey',
+        // height : "75%"
+    },
+    foodItem : {
+        marginLeft : "15%",
+        flex : 1,
+        // borderWidth : 1
+    },
+    dateContainer : {
+        marginTop : "10%",
+        marginLeft : "20%"
     }
 });
 
@@ -46,17 +60,23 @@ const abbreviation  = {"Crispy Pata" : "CP", "Carbonara" : "C", "Roasted Chicken
 const OrderList = props => {
     const {order} = props;
     
+    const [modal,setModal] = useState(false);
+
+    const setModalHandler = (value) => {
+        setModal(value);
+    }
+
     return(
         <View style = {styles.orderContainer}>
             <ScrollView>
               <View style = {styles.foodListContainer}>
                 <View style = {styles.foodList}>
-                    <View>
+                    <View style = {styles.foodItem}>
                         <Text>
                             Qty
                         </Text>
                     </View>
-                    <View>
+                    <View style = {styles.foodItem}>
                         <Text>
                             Item
                         </Text>
@@ -65,25 +85,25 @@ const OrderList = props => {
                 {order.foodList.map((food,index) => {
                     return(
                     <View key = {food.foodId} style = {styles.foodList}>
-                        
-                        <View>            
+                        <View style = {styles.foodItem}>            
                             <Text>
                             {food.quantity} 
                             </Text>
                         </View>
-                        <View>            
-                            <Text>
-                            {abbreviation[food.food]}
+                        <View style = {styles.foodItem} >            
+                            <Text numberOfLines = {1}>
+                            {/* {abbreviation[food.food]} */}
+                            {food.food}
                             </Text>
                         </View>
                     </View>
                     )
                 })}
-            <View>
-                <View>
-                <Text>
-                    Date of Pickup:
-                </Text>
+            <View style = {styles.dateContainer}>
+                <View style = {{marginBottom : 5}}>
+                    <Text>
+                        DoP:
+                    </Text>
                 </View>
                 <View>
                     <Text>
@@ -99,7 +119,7 @@ const OrderList = props => {
             </View>
             </ScrollView>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress = {() => {setModalHandler(true)}}>
                     <View style = {styles.button}>
                         <Text style = {{textAlign : 'center'}}>
                             View
@@ -114,6 +134,7 @@ const OrderList = props => {
                     </View>
                 </TouchableOpacity>
             </View>
+            <ViewOrder order = {order} showModal = {modal} viewModal = {setModalHandler}/>
         </View>
     )
 }

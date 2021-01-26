@@ -65,6 +65,13 @@ const styles = StyleSheet.create({
     }
 });
 
+const priceList = {
+    "Crispy Pata" : '500',
+    "Lumpiang Shanghai" : '100',
+    "Roasted Chicken" : '300',
+    "Carbonara" : '650'
+}
+
 const OrderForm = props => {
     const {addOrder,updateOrderList} = props;
 
@@ -83,7 +90,7 @@ const OrderForm = props => {
         if (foodCount < 6){
         setFoodCount(foodCount + 1);    
         setFoodList(
-            [...foodList,{quantity:0,food:"",foodId : Math.random().toString()}]
+            [...foodList,{quantity:0,food:"", foodPrice : "",foodId : Math.random().toString()}]
         )}
         else{
             console.log("Order Full!");
@@ -112,7 +119,9 @@ const OrderForm = props => {
     };
 
     const foodListHandler = (orderListValue,foodId) => {
+        orderListValue.foodPrice = priceList[orderListValue.food];
         const item = orderListValue;
+        
         const updatedFoodList = foodList.map((order) =>{
             if(order.foodId === foodId){
                 return item;
@@ -125,7 +134,12 @@ const OrderForm = props => {
 
     const submitOrder = () => {
         
-        const newOrder ={name, contactNumber, dateOfPickup, foodList,orderId : Math.random().toString()};    
+        let totalCost = 0;
+        for ( let i = 0; i < foodList.length; i ++){
+            totalCost = totalCost + parseInt(foodList[i].foodPrice) * parseInt(foodList[i].quantity);
+        }
+        
+        const newOrder ={name, contactNumber, dateOfPickup, foodList,totalCost,orderId : Math.random().toString()};    
         updateOrderList(newOrder);
         setShowForm(false);
           
