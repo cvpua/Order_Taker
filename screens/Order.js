@@ -15,9 +15,7 @@ const styles = StyleSheet.create({
     container: {
       flex : 1,
       paddingHorizontal : 6,
-    //   justifyContent : 'center',
-    //   alignItems : 'center',
-    
+    //   borderWidth : 1,    
       flexDirection : 'row',   
       flexWrap : 'wrap',
        
@@ -59,17 +57,22 @@ const Order = (props) => {
 
     let currentView = (
         
-        <View style = {styles.container}> 
+        <View style = {{flex : 1}} > 
+            <ScrollView>
+            <View style = {styles.container}>
             {orderList.map((order,index) => {
                 return (<OrderList key = {order.orderId} order = {order} />)
             })
             }
-            
-            <TouchableOpacity style = {styles.orderButton} onPress = {() => {setToOrderHandler(true)}} >
+            </View>
+            </ScrollView>
+            {/* <View > */}
+            <TouchableOpacity style = {styles.orderButton}  onPress = {() => {setToOrderHandler(true)}} >
                 <View>
                 <Text style = {{fontSize : 40}}>+</Text>
                 </View>
             </TouchableOpacity>
+            {/* </View> */}
         </View>
         )
     if (toOrder){

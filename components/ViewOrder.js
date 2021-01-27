@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
         elevation : 20,
         borderRadius : 10,
         width : 400,
-        // flex : 1,
         maxHeight : '80%',
         maxWidth : '60%',
         justifyContent : 'flex-start',
@@ -38,8 +37,6 @@ const styles = StyleSheet.create({
     headerStyle : {
         flexDirection : 'row',
         marginTop : 10,
-        // marginLeft : '8%',
-        // marginRight : '4%',
         // borderWidth : 1    
     },
     item:{
@@ -52,8 +49,7 @@ const styles = StyleSheet.create({
         // borderWidth : 1,
         width : "100%",
         paddingVertical : 10,
-        // marginLeft : '4%',
-        // marginRight : '4%'
+        
     },
     dateContainer : {
         flexDirection : 'row',
@@ -65,9 +61,15 @@ const styles = StyleSheet.create({
         flexDirection : 'row',
         justifyContent : 'space-between',
         marginTop : 10
-        // marginLeft : '16%',
-        // marginRight : "8%",
         // borderWidth : 1
+    },
+    printButton : {
+        marginTop : 24,
+        borderWidth : 1,
+        borderRadius : 10,
+        width : "35%",
+        alignItems : 'center',
+        backgroundColor : 'grey'
     }
 
 });
@@ -162,7 +164,7 @@ const ViewOrder = props => {
                             </Text>
                         </View>
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity style = {styles.printButton}>
                         <View>
                             <Text>
                                 Print
